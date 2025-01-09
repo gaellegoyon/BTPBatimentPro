@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\gaell\\.nuget\\packages\\": {}
+    "C:\\Users\\labie\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\gaell\\Documents\\.NET\\BTPBatimentPro\\BTPBatimentPro.UI\\BTPBatimentPro.UI.csproj",
+      "projectUniqueName": "C:\\Users\\labie\\BTPBatimentPro\\BTPBatimentPro.UI\\BTPBatimentPro.UI.csproj",
       "projectName": "BTPBatimentPro.UI",
-      "projectPath": "C:\\Users\\gaell\\Documents\\.NET\\BTPBatimentPro\\BTPBatimentPro.UI\\BTPBatimentPro.UI.csproj",
-      "packagesPath": "C:\\Users\\gaell\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\gaell\\Documents\\.NET\\BTPBatimentPro\\BTPBatimentPro.UI\\obj\\",
+      "projectPath": "C:\\Users\\labie\\BTPBatimentPro\\BTPBatimentPro.UI\\BTPBatimentPro.UI.csproj",
+      "packagesPath": "C:\\Users\\labie\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\labie\\BTPBatimentPro\\BTPBatimentPro.UI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\gaell\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\labie\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"

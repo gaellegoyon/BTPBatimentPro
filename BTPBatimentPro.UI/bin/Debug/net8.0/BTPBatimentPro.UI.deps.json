@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "BTPBatimentPro.UI/1.0.0": {
+        "runtime": {
+          "BTPBatimentPro.UI.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "BTPBatimentPro.UI/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
