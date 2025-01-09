@@ -168,3 +168,4 @@ C:\Users\gaell\Documents\.NET\BTPBatimentPro\BTPBatimentPro.API\obj\Debug\net8.0
 C:\Users\gaell\Documents\.NET\BTPBatimentPro\BTPBatimentPro.API\obj\Debug\net8.0\BTPBatimentPro.API.pdb
 C:\Users\gaell\Documents\.NET\BTPBatimentPro\BTPBatimentPro.API\obj\Debug\net8.0\BTPBatimentPro.API.genruntimeconfig.cache
 C:\Users\gaell\Documents\.NET\BTPBatimentPro\BTPBatimentPro.API\obj\Debug\net8.0\ref\BTPBatimentPro.API.dll
+C:\Users\gaell\Documents\.NET\BTPBatimentPro\BTPBatimentPro.API\bin\Debug\net8.0\Newtonsoft.Json.dll
