@@ -4,7 +4,7 @@
 
 Voici une vidéo de démonstration de l'application. Vous pouvez la télécharger et la visionner ci-dessous :
 
-![Vidéo de démonstration](./video/capture.mp4)
+![Vidéo de démonstration](video\capture.mp4)
 
 ## Description du projet
 
@@ -86,7 +86,3 @@ Nom d'utilisateur : alicejohnson
 Mot de passe : technician789
 Rôle : User
 Ces identifiants sont fournis pour tester les différentes fonctionnalités de l'application.
-
-```bash
-
-```
