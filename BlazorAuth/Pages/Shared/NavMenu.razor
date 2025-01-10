@@ -1,5 +1,6 @@
 @inject AuthenticationService AuthService
 @inject NavigationManager NavigationManager
+@inject EmployeeService EmployeeService
 
 <div class="sidebar bg-white shadow-sm">
     <div class="sidebar-header p-3 border-bottom">
@@ -19,8 +20,8 @@
                     <i class="bi bi-person-circle fs-1 text-primary"></i>
                 </div>
                 <div>
-                    <h6 class="mb-1">John Doe</h6>
-                    <small class="text-muted">Administrator</small>
+                    <h6 class="mb-1">@userName</h6>
+                    <small class="text-muted">@userRole</small>
                 </div>
             </div>
         </div>
@@ -157,16 +158,29 @@
 @code {
     private bool isAuthenticated;
     private List<string> userRoles = new List<string>();
+    private string userName = "Utilisateur";
+    private string userRole = "Rôle";
 
     protected override async Task OnInitializedAsync()
     {
         isAuthenticated = await AuthService.IsAuthenticated();
+        string userIdString = string.Empty;
         if (isAuthenticated)
         {
+            userIdString = await AuthService.GetEmployeeId();
             userRoles = await AuthService.GetUserRoles();
         }
-    }
+        if (int.TryParse(userIdString, out int userId))
+        {
+            var employee = await EmployeeService.GetEmployeeByIdAsync(userId);
 
+            if (employee != null)
+            {
+                userName = $"{employee.FirstName} {employee.LastName}";
+                userRole = userRoles.Contains("Admin") ? "Administrator" : "User";
+            }
+        }
+    }
     private async Task Logout()
     {
         await AuthService.Logout();
