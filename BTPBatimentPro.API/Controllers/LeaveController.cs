@@ -19,15 +19,17 @@ namespace BTPBatimentPro.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Leave>> SubmitLeaveRequest(Leave leave)
         {
+            // Optionnel: ajouter des validations supplémentaires ici
+            leave.Status = "En attente"; // Initialement, le statut est "En attente"
             var submittedLeave = await _service.SubmitLeaveRequestAsync(leave);
             return CreatedAtAction(nameof(GetLeaveRequest), new { id = submittedLeave.Id }, submittedLeave);
         }
 
         // GET: api/leaves
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Leave>>> GetLeaveRequests()
+        public async Task<ActionResult<IEnumerable<Leave>>> GetLeaveRequestsForValidation()
         {
-            var leaveRequests = await _service.GetAllAsync();
+            var leaveRequests = await _service.GetLeaveRequestsForValidationAsync();
             return Ok(leaveRequests);
         }
 
@@ -57,28 +59,6 @@ namespace BTPBatimentPro.API.Controllers
             }
 
             return Ok(leave);
-        }
-
-        // GET: api/leaves/validation
-        [HttpGet("validation")]
-        public async Task<ActionResult<IEnumerable<Leave>>> GetLeaveRequestsForAdminValidation()
-        {
-            var leaveRequests = await _service.GetLeaveRequestsForValidationAsync();
-            return Ok(leaveRequests);
-        }
-
-        // DELETE: api/leaves/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteLeaveRequest(int id)
-        {
-            var success = await _service.DeleteLeaveRequestAsync(id);
-
-            if (!success)
-            {
-                return NotFound(new { message = "Leave request not found." });
-            }
-
-            return NoContent();
         }
     }
 }

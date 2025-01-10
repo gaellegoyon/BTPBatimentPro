@@ -35,18 +35,6 @@ namespace BTPBatimentPro.API.Controllers
             return Ok(project);
         }
 
-        // GET: api/projects/employee/{employeeId}
-        [HttpGet("employee/{employeeId}")]
-        public async Task<ActionResult<IEnumerable<Project>>> GetProjectsByEmployee(int employeeId)
-        {
-            var projects = await _service.GetProjectsByEmployeeIdAsync(employeeId);
-            if (projects == null || !projects.Any())
-            {
-                return NotFound();
-            }
-            return Ok(projects);
-        }
-
         // POST: api/project
         [HttpPost]
         public async Task<ActionResult<Project>> PostProject(Project project)
