@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BTPBatimentPro.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c924b000e8dabcb13936ec46b108840b4b6c8688")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+18652eda03ef8a859dd2ef4823768513d570e9f9")]
 [assembly: System.Reflection.AssemblyProductAttribute("BTPBatimentPro.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BTPBatimentPro.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

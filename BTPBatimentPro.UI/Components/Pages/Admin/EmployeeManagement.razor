@@ -75,22 +75,34 @@
 </div>
 
 @code {
-    private List<Employee> employees = new();
     private Employee newEmployee = new();
+    private List<Employee> allEmployees = new();
+    private List<Employee> employees = new();
 
+    // Initialisation des données lorsque le composant est chargé
     protected override async Task OnInitializedAsync()
     {
-        employees = await EmployeeService.GetEmployeesAsync();
+        try
+        {
+            // Récupérer tous les employés
+            allEmployees = await EmployeeService.GetEmployeesAsync();
+            employees = allEmployees; // Initialiser la liste des employés à afficher
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError($"Erreur lors du chargement des employés : {ex.Message}");
+        }
     }
 
+    // Ajouter un salarié
     private async Task AddEmployee()
     {
         try
         {
-            Console.WriteLine($"Données soumises : {newEmployee.FirstName}, {newEmployee.LastName}, {newEmployee.Role}");
             await EmployeeService.AddEmployeeAsync(newEmployee);
-            employees = await EmployeeService.GetEmployeesAsync();
-            newEmployee = new();
+            employees = await EmployeeService.GetEmployeesAsync();  // Mettre à jour la liste des employés
+            allEmployees = employees; // Mettre à jour la liste des employés dans le formulaire de projet
+            newEmployee = new(); // Réinitialiser le modèle après l'ajout
         }
         catch (HttpRequestException ex)
         {
@@ -98,6 +110,7 @@
         }
     }
 
+    // Supprimer un salarié
     private async Task DeleteEmployee(int id)
     {
         try
@@ -111,7 +124,7 @@
         }
         catch (Exception ex)
         {
-            Logger.LogError($"Erreur : {ex.Message}");
+            Logger.LogError($"Erreur lors de la suppression : {ex.Message}");
         }
     }
 }

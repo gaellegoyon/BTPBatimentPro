@@ -46,4 +46,10 @@ public class EmployeeService
         await _httpClient.PostAsJsonAsync($"http://localhost:5148/api/employees/{id}/attendance", attendance);
     }
 
+      public async Task<List<Employee>> GetAllEmployeesAsync()
+    {
+        var employees = await _httpClient.GetFromJsonAsync<List<Employee>>("http://localhost:5148/api/employees");
+        return employees ?? new List<Employee>();
+    }
+
 }

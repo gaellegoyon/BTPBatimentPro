@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text;
 public class ProjectService
 {
     private readonly HttpClient _httpClient;
@@ -28,28 +30,24 @@ public class ProjectService
         await _httpClient.DeleteAsync($"http://localhost:5148/api/project/{id}");
     }
 
-    public async Task AssignEmployeeToProjectAsync(int projectId, int employeeId)
-    {
-        await _httpClient.PostAsync($"http://localhost:5148/api/project/{projectId}/assign/{employeeId}", null);
-    }
-
+ 
     public async Task<int> GetActiveProjectsCountAsync()
     {
         var projects = await GetProjectsAsync();
         return projects.Count;
     }
 
+       // Récupérer les employés par projet
     public async Task<List<Employee>> GetEmployeesByProjectAsync(int projectId)
     {
-        try
-        {
-            var employees = await _httpClient.GetFromJsonAsync<List<Employee>>($"http://localhost:5148/api/project/{projectId}/employees");
-            return employees ?? new List<Employee>();
-        }
-        catch (HttpRequestException ex)
-        {
-            Console.WriteLine($"Request error: {ex.Message}");
-            return new List<Employee>();
-        }
+        var response = await _httpClient.GetFromJsonAsync<List<Employee>>($"http://localhost:5148/api/project/{projectId}/employees");
+        return response ?? new List<Employee>();
+    }
+
+    // Assigner des employés à un projet
+    public async Task AssignEmployeesToProjectAsync(int projectId, List<int> employeeIds)
+    {
+        var content = new StringContent(JsonSerializer.Serialize(employeeIds), Encoding.UTF8, "application/json");
+        await _httpClient.PostAsync($"http://localhost:5148/api/project/{projectId}/assign", content);
     }
 }

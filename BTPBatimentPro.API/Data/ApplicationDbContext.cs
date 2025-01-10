@@ -18,20 +18,15 @@ namespace BTPBatimentPro.API.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Assignment>()
-                .HasKey(a => new { a.EmployeeId, a.ProjectId });
+           modelBuilder.Entity<Assignment>()
+            .HasOne(a => a.Project)
+            .WithMany(p => p.Assignments)
+            .HasForeignKey(a => a.ProjectId);
 
             modelBuilder.Entity<Assignment>()
                 .HasOne(a => a.Employee)
-                .WithMany()
-                .HasForeignKey(a => a.EmployeeId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Assignment>()
-                .HasOne(a => a.Project)
-                .WithMany()
-                .HasForeignKey(a => a.ProjectId)
-                .OnDelete(DeleteBehavior.Cascade);
-        }
+                .WithMany(e => e.Assignments)
+                .HasForeignKey(a => a.EmployeeId);
+            }
     }
 }

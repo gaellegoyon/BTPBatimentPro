@@ -1,7 +1,11 @@
 using BTPBatimentPro.API.Data;
 using BTPBatimentPro.API.Models;
 using Microsoft.EntityFrameworkCore;
-
+using System.Collections.Generic; 
+using System.Linq;
+using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text;
 namespace BTPBatimentPro.API.Services
 {
     public class ProjectService
@@ -72,41 +76,56 @@ namespace BTPBatimentPro.API.Services
             return _context.Projects.Any(e => e.Id == id);
         }
 
-        // Assigner un salarié à un chantier
-        public async Task<bool> AssignEmployeeToProjectAsync(int projectId, int employeeId)
+        // Assigner des employés à un projet
+        public async Task AssignEmployeesToProjectAsync(int projectId, List<int> employeeIds)
         {
-            var project = await _context.Projects.FindAsync(projectId);
-            var employee = await _context.Employees.FindAsync(employeeId);
-
-            if (project == null || employee == null)
+            var project = await _context.Projects.Include(p => p.Assignments).FirstOrDefaultAsync(p => p.Id == projectId);
+            if (project == null)
             {
-                return false;
+                throw new Exception("Projet non trouvé");
             }
 
-            // Créer une nouvelle affectation
-            var assignment = new Assignment
+            // Vérifier que la liste d'employés n'est pas vide
+            if (employeeIds == null || !employeeIds.Any())
             {
-                ProjectId = projectId,
-                EmployeeId = employeeId
-            };
+                throw new ArgumentException("Aucun employé sélectionné.");
+            }
 
-            _context.Assignments.Add(assignment);
-            await _context.SaveChangesAsync();
+            // Récupérer les employés à affecter
+            var employees = await _context.Employees.Where(e => employeeIds.Contains(e.Id)).ToListAsync();
+            if (employees.Count != employeeIds.Count)
+            {
+                throw new Exception("Certains employés n'ont pas été trouvés.");
+            }
 
-            return true;
+            // Ajouter les affectations pour chaque employé
+            foreach (var employee in employees)
+            {
+                // Créer une nouvelle affectation pour l'employé et le projet
+                var assignment = new Assignment
+                {
+                    EmployeeId = employee.Id,
+                    ProjectId = projectId
+                };
+
+                // Ajouter l'affectation à la base de données
+                _context.Assignments.Add(assignment);
+            }
+
+            await _context.SaveChangesAsync(); // Sauvegarder les modifications
         }
 
         // Récupérer les employés affectés à un projet
         public async Task<List<Employee>> GetEmployeesByProjectIdAsync(int projectId)
         {
-            // Récupérer les affectations associées au projet
-            var assignments = await _context.Assignments
+            var employees = await _context.Assignments
                 .Where(a => a.ProjectId == projectId)
-                .Include(a => a.Employee) // Inclure les détails de l'employé
+                .Select(a => a.Employee)
                 .ToListAsync();
 
-            // Retourner la liste des employés affectés
-            return assignments.Select(a => a.Employee).ToList();
+            return employees ?? new List<Employee>();
         }
+        
+      
     }
 }

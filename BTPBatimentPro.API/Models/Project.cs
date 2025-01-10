@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BTPBatimentPro.API.Models
@@ -15,5 +16,8 @@ namespace BTPBatimentPro.API.Models
 
         [Required]
         public string Address { get; set; }
+
+        // Liste des affectations (relation avec les employés via Assignment)
+        public List<Assignment> Assignments { get; set; } = new List<Assignment>();
     }
 }

@@ -54,10 +54,17 @@ namespace BTPBatimentPro.API.Services
             return attendance;
         }
 
-        //lire les pointages d'un employé
+        // Lire les pointages d'un employé
         public async Task<IEnumerable<Attendance>> GetAttendancesAsync(int employeeId)
         {
             return await _context.Attendances.Where(a => a.EmployeeId == employeeId).ToListAsync();
+        }
+
+        // Récupérer tous les employés depuis la base de données
+        public async Task<List<Employee>> GetAllEmployeesAsync()
+        {
+            // Utilisation de ToListAsync() pour récupérer les employés depuis la base de données.
+            return await _context.Employees.ToListAsync();
         }
     }
 }

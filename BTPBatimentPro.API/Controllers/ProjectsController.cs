@@ -74,19 +74,18 @@ namespace BTPBatimentPro.API.Controllers
             return NoContent();
         }
 
-        // POST: api/projects/{projectId}/assign/{employeeId}
-        [HttpPost("{projectId}/assign/{employeeId}")]
-        public async Task<IActionResult> AssignEmployeeToProject(int projectId, int employeeId)
+      
+        [HttpPost("{projectId}/assign")]
+        public async Task<IActionResult> AssignEmployeesToProjectAsync(int projectId, [FromBody] List<int> employeeIds)
         {
-            var result = await _service.AssignEmployeeToProjectAsync(projectId, employeeId);
-
-            if (result)
+            try
             {
-                return Ok(new { message = "Employee successfully assigned to the project." });
+                await _service.AssignEmployeesToProjectAsync(projectId, employeeIds);
+                return Ok();
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound(new { message = "Project or Employee not found." });
+                return BadRequest($"Erreur lors de l'affectation des employés : {ex.Message}");
             }
         }
 

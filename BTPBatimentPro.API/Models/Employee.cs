@@ -17,5 +17,7 @@ namespace BTPBatimentPro.API.Models
         [Required]
         [StringLength(50)]
         public string Role { get; set; }
+        public ICollection<Assignment> Assignments { get; set; }
+
     }
 }

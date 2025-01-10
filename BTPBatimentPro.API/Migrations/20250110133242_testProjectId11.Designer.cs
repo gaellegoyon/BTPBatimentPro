@@ -4,6 +4,7 @@ using BTPBatimentPro.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BTPBatimentPro.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250110133242_testProjectId11")]
+    partial class testProjectId11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,23 +27,23 @@ namespace BTPBatimentPro.API.Migrations
 
             modelBuilder.Entity("BTPBatimentPro.API.Models.Assignment", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
-                    b.HasIndex("EmployeeId");
+                    b.Property<int?>("ProjectId1")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeeId", "ProjectId");
 
                     b.HasIndex("ProjectId");
+
+                    b.HasIndex("ProjectId1");
 
                     b.ToTable("Assignments");
                 });
@@ -154,25 +157,24 @@ namespace BTPBatimentPro.API.Migrations
             modelBuilder.Entity("BTPBatimentPro.API.Models.Assignment", b =>
                 {
                     b.HasOne("BTPBatimentPro.API.Models.Employee", "Employee")
-                        .WithMany("Assignments")
+                        .WithMany()
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BTPBatimentPro.API.Models.Project", "Project")
-                        .WithMany("Assignments")
+                        .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BTPBatimentPro.API.Models.Project", null)
+                        .WithMany("Assignments")
+                        .HasForeignKey("ProjectId1");
+
                     b.Navigation("Employee");
 
                     b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("BTPBatimentPro.API.Models.Employee", b =>
-                {
-                    b.Navigation("Assignments");
                 });
 
             modelBuilder.Entity("BTPBatimentPro.API.Models.Project", b =>
