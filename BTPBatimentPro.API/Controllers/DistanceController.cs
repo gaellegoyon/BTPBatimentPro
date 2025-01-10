@@ -16,18 +16,18 @@ namespace BTPBatimentPro.API.Controllers
 
         // GET: api/distance
         [HttpGet]
-        public async Task<IActionResult> GetDistance([FromQuery] string origin, [FromQuery] string destination)
+        public async Task<IActionResult> GetDistance([FromQuery] string startAddress, [FromQuery] string endAddress)
         {
-            if (string.IsNullOrEmpty(origin) || string.IsNullOrEmpty(destination))
+            if (string.IsNullOrEmpty(startAddress) || string.IsNullOrEmpty(endAddress))
             {
-                return BadRequest("Both origin and destination addresses must be provided.");
+                return BadRequest("Both start and end addresses must be provided.");
             }
 
-            var distance = await _distanceService.CalculateDistanceAsync(origin, destination);
+            var distance = await _distanceService.GetDistanceAsync(startAddress, endAddress);
 
             if (distance == null)
             {
-                return NotFound("Could not calculate the distance. Please check the addresses and try again.");
+                return NotFound("Could not calculate the distance.");
             }
 
             return Ok(new { distanceInKm = distance });

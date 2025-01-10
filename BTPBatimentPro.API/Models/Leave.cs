@@ -7,6 +7,7 @@ namespace BTPBatimentPro.API.Models
         public int Id { get; set; }
 
         public int EmployeeId { get; set; }
+        public Employee Employee { get; set; }
 
         [Required]
         public DateTime StartDate { get; set; }
@@ -14,7 +15,8 @@ namespace BTPBatimentPro.API.Models
         [Required]
         public DateTime EndDate { get; set; }
 
+        [Required]
         [StringLength(50)]
-        public string Status { get; set; } = "Pending";
+        public string Status { get; set; }  // En attente, validé, rejeté
     }
 }

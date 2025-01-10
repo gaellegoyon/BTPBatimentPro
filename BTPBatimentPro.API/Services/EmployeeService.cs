@@ -18,11 +18,6 @@ namespace BTPBatimentPro.API.Services
             return await _context.Employees.ToListAsync();
         }
 
-        public async Task<Employee> GetEmployeeByIdAsync(int id)
-        {
-            return await _context.Employees.FindAsync(id) ?? throw new InvalidOperationException("Employee not found");
-        }
-
         public async Task<Employee> AddEmployeeAsync(Employee employee)
         {
             _context.Employees.Add(employee);
@@ -40,17 +35,20 @@ namespace BTPBatimentPro.API.Services
             return true;
         }
 
+        // Enregistrer un pointage (présence ou absence)
         public async Task<Attendance> RegisterAttendanceAsync(int employeeId, Attendance attendance)
         {
             var employee = await _context.Employees.FindAsync(employeeId);
             if (employee == null)
             {
-                throw new InvalidOperationException("Employee not found");
+                return null; // Si l'employé n'existe pas
             }
 
+            // Associer l'ID de l'employé au pointage
             attendance.EmployeeId = employeeId;
-            _context.Attendances.Add(attendance);
+            _context.Attendances.Add(attendance); // Ajouter l'attendance à la base de données
             await _context.SaveChangesAsync();
+
             return attendance;
         }
 
