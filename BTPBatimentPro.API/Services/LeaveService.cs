@@ -18,6 +18,11 @@ namespace BTPBatimentPro.API.Services
             return await _context.Leaves.ToListAsync();
         }
 
+        public async Task<List<Leave>> GetLeaveByEmployeeIdAsync(int employeeId)
+        {
+            return await _context.Leaves.Where(l => l.EmployeeId == employeeId).ToListAsync();
+        }
+
         // Soumettre une demande de congé
         public async Task<Leave> SubmitLeaveRequestAsync(Leave leave)
         {

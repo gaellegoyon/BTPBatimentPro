@@ -13,6 +13,12 @@ public class LeavesService
         return leaves ?? new List<Leave>();
     }
 
+    public async Task<List<Leave>> GetLeavesByEmployeeAsync(int id)
+    {
+        var leaves = await _httpClient.GetFromJsonAsync<List<Leave>>($"http://localhost:5148/api/leave/employee/{id}");
+        return leaves ?? new List<Leave>();
+    }
+
     public async Task<List<Leave>> GetLeavesValidationAsync()
     {
         var leaves = await _httpClient.GetFromJsonAsync<List<Leave>>("http://localhost:5148/api/leave/validation");

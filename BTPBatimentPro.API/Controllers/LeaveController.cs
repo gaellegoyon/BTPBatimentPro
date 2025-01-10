@@ -31,6 +31,14 @@ namespace BTPBatimentPro.API.Controllers
             return Ok(leaveRequests);
         }
 
+        [HttpGet("employee/{employeeId}")]
+        public async Task<ActionResult<IEnumerable<Leave>>> GetLeaveByEmployeeId(int employeeId)
+        {
+            var leaveRequests = await _service.GetLeaveByEmployeeIdAsync(employeeId);
+            return Ok(leaveRequests);
+        }
+
+
         // PUT: api/leaves/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateLeaveStatus(int id, [FromBody] string status)
