@@ -25,6 +25,17 @@ namespace BTPBatimentPro.API.Services
             return await _context.Projects.FindAsync(id);
         }
 
+        // Récupéer les projets d'un salarié
+        public async Task<List<Project>> GetProjectsByEmployeeIdAsync(int employeeId)
+        {
+            var assignments = await _context.Assignments
+                .Where(a => a.EmployeeId == employeeId)
+                .Include(a => a.Project)
+                .ToListAsync();
+
+            return assignments.Select(a => a.Project).ToList();
+        }
+
         // Créer un projet
         public async Task<Project> CreateProjectAsync(Project project)
         {

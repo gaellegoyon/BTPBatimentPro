@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using BTPBatimentPro.API.Models;
 
 namespace BTPBatimentPro.API.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
@@ -18,20 +19,24 @@ namespace BTPBatimentPro.API.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<ApplicationUser>()
+                .HasOne(u => u.Employee)
+                .WithOne()
+                .HasForeignKey<ApplicationUser>(u => u.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<Assignment>()
                 .HasKey(a => new { a.EmployeeId, a.ProjectId });
 
             modelBuilder.Entity<Assignment>()
                 .HasOne(a => a.Employee)
                 .WithMany()
-                .HasForeignKey(a => a.EmployeeId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(a => a.EmployeeId);
 
             modelBuilder.Entity<Assignment>()
                 .HasOne(a => a.Project)
                 .WithMany()
-                .HasForeignKey(a => a.ProjectId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(a => a.ProjectId);
         }
     }
 }

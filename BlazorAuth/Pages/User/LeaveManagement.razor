@@ -1,0 +1,136 @@
+@page "/user/leaves"
+@inject LeavesService LeaveService
+@inject NavigationManager NavigationManager
+@inject AuthenticationService AuthService
+
+<div class="container my-5">
+    <h3 class="text-primary">Demande de Congé</h3>
+
+    @if (isSuccess)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Demande de congé envoyée avec succès !
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <EditForm Model="leaveRequest" OnValidSubmit="SubmitLeaveRequest" FormName="leaveForm">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="mb-3">
+                    <label for="startDate" class="form-label">Date de début</label>
+                    <InputDate id="startDate" class="form-control" @bind-Value="leaveRequest.StartDate" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="endDate" class="form-label">Date de fin</label>
+                    <InputDate id="endDate" class="form-control" @bind-Value="leaveRequest.EndDate" />
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Envoyer</button>
+            </EditForm>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h3 class="text-primary">Liste des Congés</h3>
+
+        @if (leaves == null)
+        {
+            <div class="text-muted">Chargement...</div>
+        }
+        else
+        {
+            <div class="card shadow-sm">
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>Date de début</th>
+                                <th>Date de fin</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var leave in leaves)
+                            {
+                                <tr>
+                                    <td>@leave.StartDate.ToString("dd/MM/yyyy")</td>
+                                    <td>@leave.EndDate.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        <span
+                                            class="badge bg-@(leave.Status == "Approuvé" ? "success" : leave.Status == "Rejeté" ? "danger" : "warning")">
+                                            @leave.Status
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm" @onclick="() => DeleteLeave(leave.Id)">
+                                            <i class="bi bi-trash"></i> Supprimer
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private bool isSuccess = false;
+    private Leave leaveRequest = new Leave
+        {
+            StartDate = DateTime.Today,
+            EndDate = DateTime.Today.AddDays(1)
+        };
+    private List<Leave>? leaves;
+    private string? employeeId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeId = await AuthService.GetEmployeeId();
+        if (employeeId != null)
+        {
+            leaveRequest.EmployeeId = int.Parse(employeeId);
+        }
+        leaves = await LeaveService.GetLeavesAsync();
+    }
+
+    private async Task SubmitLeaveRequest()
+    {
+        try
+        {
+            if (employeeId != null)
+            {
+                leaveRequest.EmployeeId = int.Parse(employeeId);
+                await LeaveService.AddLeaveAsync(leaveRequest);
+                isSuccess = true;
+                leaves = await LeaveService.GetLeavesAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de l'envoi de la demande de congé : {ex.Message}");
+            isSuccess = false;
+        }
+    }
+
+    private async Task DeleteLeave(int leaveId)
+    {
+        try
+        {
+            await LeaveService.DeleteLeaveAsync(leaveId);
+            leaves = await LeaveService.GetLeavesAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la suppression de la demande de congé : {ex.Message}");
+        }
+    }
+}

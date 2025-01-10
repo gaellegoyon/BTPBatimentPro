@@ -1,0 +1,16 @@
+@page "/protected"
+
+@inject AuthenticationService AuthService
+@inject NavigationManager NavigationManager
+
+<h3>Protected Page</h3>
+
+@if (!isAuthenticated) { <p>You are not authorized to view this page.</p> }
+else {  <p>Welcome, you are authenticated!</p>}
+
+@code {
+     private bool isAuthenticated;
+    protected override async Task OnInitializedAsync() {
+        isAuthenticated = await AuthService.IsAuthenticated();
+    }
+}
