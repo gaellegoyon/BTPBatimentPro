@@ -1,8 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "aXtMSbu7qBM=",
+  "dgSpecHash": "7IGSHHurNIk=",
   "success": true,
   "projectFilePath": "C:\\Users\\gaell\\Documents\\.NET\\BTPBatimentPro\\BTPBatimentPro.UI\\BTPBatimentPro.UI.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\gaell\\.nuget\\packages\\microsoft.aspnet.webapi.client\\6.0.0\\microsoft.aspnet.webapi.client.6.0.0.nupkg.sha512",
+    "C:\\Users\\gaell\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.server\\9.0.0\\microsoft.aspnetcore.components.webassembly.server.9.0.0.nupkg.sha512",
+    "C:\\Users\\gaell\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\gaell\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
+    "C:\\Users\\gaell\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
+    "C:\\Users\\gaell\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512"
+  ],
   "logs": []
 }

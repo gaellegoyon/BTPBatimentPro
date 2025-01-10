@@ -58,8 +58,6 @@ namespace BTPBatimentPro.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId");
-
                     b.ToTable("Attendances");
                 });
 
@@ -115,8 +113,6 @@ namespace BTPBatimentPro.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId");
-
                     b.ToTable("Leaves");
                 });
 
@@ -164,28 +160,6 @@ namespace BTPBatimentPro.API.Migrations
                     b.Navigation("Employee");
 
                     b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("BTPBatimentPro.API.Models.Attendance", b =>
-                {
-                    b.HasOne("BTPBatimentPro.API.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("BTPBatimentPro.API.Models.Leave", b =>
-                {
-                    b.HasOne("BTPBatimentPro.API.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
                 });
 #pragma warning restore 612, 618
         }
