@@ -4,7 +4,7 @@
 
 Voici une vidéo de démonstration de l'application. Vous pouvez la télécharger et la visionner ci-dessous :
 
-![Vidéo de démonstration](./video/capture.mp4)
+![Capture application](./image/capture.png)
 
 ## Description du projet
 
