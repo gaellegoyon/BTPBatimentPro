@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Ajouter les services nécessaires
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
