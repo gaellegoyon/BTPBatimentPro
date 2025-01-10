@@ -4,7 +4,7 @@
 
 Voici une vidéo de démonstration de l'application. Vous pouvez la télécharger et la visionner ci-dessous :
 
-![Vidéo de démonstration](video\capture.mp4)
+![Vidéo de démonstration](assets/video/capture.mp4)
 
 ## Description du projet
 
@@ -53,36 +53,37 @@ cd BTPBatimentPro
 
 -Ensuite, exécutez la commande suivante pour appliquer la migration et mettre à jour la base de données.
 
+```bash
 cd BTPBatimentPro.API
 dotnet ef migrations add InitialCreate
 dotnet ef database update
+```
 
 ### 3. Lancer l'API (Backend)
 
 Une fois la base de données configurée, vous pouvez démarrer l'API. Pour ce faire, assurez-vous d'être dans le dossier BTPBatimentPro.API et exécutez la commande suivante :
 
+```bash
 dotnet run
+```
 
 ### 4. Lancer l'application Blazor (Frontend)
 
 Ouvrez une nouvelle fenêtre de commande et accédez au dossier BlazorAuth du projet :
+
+```bash
 cd BlazorAuth
 dotnet run
+```
 
 ### 5. Connexion
 
 Pour tester l'application, vous pouvez vous connecter avec les identifiants suivants :
 
-Utilisateur Admin :
-Nom d'utilisateur : johndoe
-Mot de passe : password123
-Rôle : Admin
-Utilisateur classique :
-Nom d'utilisateur : janesmith
-Mot de passe : securePass456
-Rôle : User
-Technicien (Utilisateur) :
-Nom d'utilisateur : alicejohnson
-Mot de passe : technician789
-Rôle : User
+| Utilisateur       | Nom d'utilisateur | Mot de passe    | Rôle  |
+|-------------------|-------------------|-----------------|-------|
+| Admin             | johndoe           | password123     | Admin |
+| Utilisateur classique | janesmith      | securePass456   | User  |
+| Technicien (Utilisateur) | alicejohnson | technician789   | User  |
+
 Ces identifiants sont fournis pour tester les différentes fonctionnalités de l'application.
