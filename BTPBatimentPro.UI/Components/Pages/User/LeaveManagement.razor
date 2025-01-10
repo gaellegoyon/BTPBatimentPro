@@ -1,0 +1,107 @@
+@page "/user/leaves"
+@inject LeavesService LeaveService
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<h3>Demande de congé</h3>
+
+@if (isSuccess)
+{
+    <div class="alert alert-success" role="alert">
+        Demande de congé envoyée avec succès !
+    </div>
+}
+
+<EditForm Model="leaveRequest" OnValidSubmit="SubmitLeaveRequest" FormName="leaveForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="startDate">Date de début</label>
+        <InputDate id="startDate" class="form-control" @bind-Value="leaveRequest.StartDate" />
+    </div>
+
+    <div class="form-group">
+        <label for="endDate">Date de fin</label>
+        <InputDate id="endDate" class="form-control" @bind-Value="leaveRequest.EndDate" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+</EditForm>
+
+<h3>Liste des congés</h3>
+
+@if (leaves == null)
+{
+    <p>Chargement...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var leave in leaves)
+            {
+                <tr>
+                    <td>@leave.StartDate.ToString("dd/MM/yyyy")</td>
+                    <td>@leave.EndDate.ToString("dd/MM/yyyy")</td>
+                    <td>@leave.Status</td>
+                    <td>
+                        <button class="btn btn-danger" @onclick="() => DeleteLeave(leave.Id)">Supprimer</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private bool isSuccess = false;
+    private Leave leaveRequest = new Leave
+        {
+            EmployeeId = 1,
+            StartDate = DateTime.Today,
+            EndDate = DateTime.Today.AddDays(1)
+        };
+    private List<Leave>? leaves;
+
+    protected override async Task OnInitializedAsync()
+    {
+        leaves = await LeaveService.GetLeavesAsync();
+    }
+
+    private async Task SubmitLeaveRequest()
+    {
+        try
+        {
+            await LeaveService.AddLeaveAsync(leaveRequest);
+            isSuccess = true;
+            leaves = await LeaveService.GetLeavesAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de l'envoi de la demande de congé : {ex.Message}");
+            isSuccess = false;
+        }
+    }
+
+    private async Task DeleteLeave(int leaveId)
+    {
+        try
+        {
+            await LeaveService.DeleteLeaveAsync(leaveId);
+            leaves = await LeaveService.GetLeavesAsync(); // Refresh the list
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la suppression de la demande de congé : {ex.Message}");
+        }
+    }
+}

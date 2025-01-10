@@ -2,22 +2,37 @@ using BTPBatimentPro.UI.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddHttpClient("ApiClient", client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5148/");
+});
+
+builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<ProjectService>();
+builder.Services.AddScoped<LeavesService>();
+
+builder.Services.AddHttpContextAccessor();
+
+if (!builder.Environment.IsDevelopment())
+{
+    builder.Services.AddExceptionHandler(options =>
+    {
+        options.ExceptionHandlingPath = "/Error";
+    });
+
+}
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseExceptionHandler("/Error");
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
 app.UseAntiforgery();
 

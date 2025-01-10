@@ -22,6 +22,13 @@ namespace BTPBatimentPro.API.Controllers
             return Ok(employees);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        {
+            var employee = await _employeeService.GetEmployeeByIdAsync(id);
+            return Ok(employee);
+        }
+
         [HttpPost]
         public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
         {
@@ -53,7 +60,7 @@ namespace BTPBatimentPro.API.Controllers
                 return NotFound("Employee not found.");
             }
 
-            return CreatedAtAction(nameof(RegisterAttendance), new { id = registeredAttendance.Id }, registeredAttendance);
+            return CreatedAtAction(nameof(GetAttendances), new { id = registeredAttendance.Id }, registeredAttendance);
         }
 
         [HttpGet("{id}/attendance")]
