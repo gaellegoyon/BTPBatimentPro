@@ -4,7 +4,7 @@
 
 Voici une vidéo de démonstration de l'application. Vous pouvez la télécharger et la visionner ci-dessous :
 
-![Vidéo de démonstration](assets/video/capture.mp4)
+![Vidéo de démonstration](./video/capture.mp4)
 
 ## Description du projet
 
@@ -80,10 +80,10 @@ dotnet run
 
 Pour tester l'application, vous pouvez vous connecter avec les identifiants suivants :
 
-| Utilisateur       | Nom d'utilisateur | Mot de passe    | Rôle  |
-|-------------------|-------------------|-----------------|-------|
-| Admin             | johndoe           | password123     | Admin |
-| Utilisateur classique | janesmith      | securePass456   | User  |
-| Technicien (Utilisateur) | alicejohnson | technician789   | User  |
+| Utilisateur              | Nom d'utilisateur | Mot de passe  | Rôle  |
+| ------------------------ | ----------------- | ------------- | ----- |
+| Admin                    | johndoe           | password123   | Admin |
+| Utilisateur classique    | janesmith         | securePass456 | User  |
+| Technicien (Utilisateur) | alicejohnson      | technician789 | User  |
 
 Ces identifiants sont fournis pour tester les différentes fonctionnalités de l'application.
