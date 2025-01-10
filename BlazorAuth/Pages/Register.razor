@@ -1,0 +1,54 @@
+@page "/register"
+@inject HttpClient Http
+@using BlazorAuth.Models
+
+<h3>Register</h3>
+
+<div>
+    <label>Username:</label>
+    <input type="text" @bind="registerModel.Username" />
+</div>
+<div>
+    <label>Password:</label>
+    <input type="password" @bind="registerModel.Password" />
+</div>
+<div>
+    <label>Email:</label>
+    <input type="email" @bind="registerModel.Email" />
+</div>
+<button @onclick="LaunchRegister">Register</button>
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <p style="color:green">@successMessage</p>
+}
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <p style="color:red">@errorMessage</p>
+}
+
+@code {
+    private RegisterModel registerModel = new();
+    private string? errorMessage;
+    private string? successMessage;
+
+    private async Task LaunchRegister()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync("Auth/register", registerModel);
+            if (response.IsSuccessStatusCode)
+            {
+                successMessage = "Registration successful!";
+            }
+            else
+            {
+                errorMessage = "Registration failed.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+    }
+}

@@ -1,0 +1,33 @@
+﻿@using BlazorAuth.Pages.Shared
+@inject AuthenticationService AuthService
+@inject NavigationManager NavigationManager
+
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        @if (isAuthenticated)
+        {
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        }
+        else
+        {
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(PublicLayout)" />
+        }
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Page non trouvée</PageTitle>
+        <LayoutView Layout="@typeof(PublicLayout)">
+            <p>Page non trouvée</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+@code {
+    private bool isAuthenticated;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Vérifier si l'utilisateur est authentifié
+        isAuthenticated = await AuthService.IsAuthenticated();
+    }
+}
